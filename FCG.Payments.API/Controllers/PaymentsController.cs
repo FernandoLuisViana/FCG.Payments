@@ -9,11 +9,11 @@ namespace FCG.Payments.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize]
 public class PaymentsController(IPaymentService service) : ControllerBase
 {
 
     [HttpPost]
+    [AllowAnonymous]
     [ServiceFilter(typeof(ValidationFilter<ProcessPaymentRequest>))]
     public async Task<IActionResult> ProcessPayment([FromBody] ProcessPaymentRequest request)
     {
@@ -22,18 +22,10 @@ public class PaymentsController(IPaymentService service) : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> List()
     {
         var payments = await service.ListAsync();
-        return payments.ToActionResult();
-    }
-
-    [HttpPost("internal")]
-    [AllowAnonymous]
-    public async Task<IActionResult> ProcessInternalPayment(
-    [FromBody] ProcessPaymentRequest request)
-    {
-        var payments = await service.ProcessPaymentAsync(request);
         return payments.ToActionResult();
     }
 }
