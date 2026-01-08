@@ -27,4 +27,13 @@ public class PaymentsController(IPaymentService service) : ControllerBase
         var payments = await service.ListAsync();
         return payments.ToActionResult();
     }
+
+    [HttpPost("internal")]
+    [AllowAnonymous]
+    public async Task<IActionResult> ProcessInternalPayment(
+    [FromBody] ProcessPaymentRequest request)
+    {
+        var payments = await service.ProcessPaymentAsync(request);
+        return payments.ToActionResult();
+    }
 }
