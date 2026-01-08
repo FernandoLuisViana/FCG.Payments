@@ -71,3 +71,28 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/fcg-payments-api:${{ env.TAG }}
             ${{ secrets.DOCKERHUB_USERNAME }}/fcg-payments-api:latest
           push: true
+
+  azure-deploy:
+    name: Redeploy no Azure Container App
+    runs-on: ubuntu-latest
+    needs: docker-deploy
+    if: github.ref == 'refs/heads/main' # Executa apenas na branch 'main'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login no Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }} # Service Principal JSON
+
+      - name: Definir TAG da Imagem
+        id: set_tag
+        run: echo "TAG=${GITHUB_SHA::7}" >> $GITHUB_ENV # usa os 7 primeiros chars do commit
+
+      - name: Redeploy Container App
+        run: |
+          az containerapp update \
+          --name fcg-payments-aca \
+          --resource-group FCG \
+          --image ${{ secrets.DOCKERHUB_USERNAME }}/fcg-payments-api:${{ env.TAG }}
