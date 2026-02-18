@@ -18,10 +18,10 @@ A **Payments API** é um microsserviço independente, responsável exclusivament
 
 ## 🏗️ Arquitetura do Microsserviço
 O projeto está organizado em camadas (DDD) contendo os seguintes projetos:
-- **FCG.Users.API** — Expõe endpoints e recebe requisições do cliente.
-- **FCG.Users.Service** — Executa regras de negócio e casos de uso.
-- **FCG.Users.Domain** — Define o modelo e as regras centrais do negócio.
-- **FCG.Users.Infrastructure** — Implementa persistência e integrações externas.
+- **FCG.Payments.API** — Expõe endpoints e recebe requisições do cliente.
+- **FCG.Payments.Service** — Executa regras de negócio e casos de uso.
+- **FCG.Payments.Domain** — Define o modelo e as regras centrais do negócio.
+- **FCG.Payments.Infrastructure** — Implementa persistência e integrações externas.
   
 ---
 
