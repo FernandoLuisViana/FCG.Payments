@@ -17,11 +17,9 @@ public class PaymentService(IPaymentRepository repository) : IPaymentService
         var payment = new PaymentEntity(request.OrderId, request.TotalAmount, request.PaymentMethod);
         await repository.AddAsync(payment);
 
-        // TODO Add Payment Webhook
-
         Enum.TryParse<EPaymentMethod>(payment.PaymentMethod, true, out var method);
         Enum.TryParse<EPaymentStatus>(payment.PaymentStatus, true, out var status);
-
+        
         return Result<PaymentResponse>.Ok(new PaymentResponse(payment.Id, payment.OrderId, payment.TotalAmount, method, status));
     }
 

@@ -1,4 +1,5 @@
 ﻿using FCG.Payments.API.Filters;
+using FCG.Payments.API.Messaging;
 using FCG.Payments.API.Middlewares;
 using FCG.Payments.Domain.Interfaces.Common;
 using FCG.Payments.Domain.Interfaces.Repositories;
@@ -165,6 +166,9 @@ namespace FCG.Payments.API.Extensions
             // Middlewares
             builder.Services.AddScoped<ExceptionMiddleware>();
             builder.Services.AddScoped(typeof(ValidationFilter<>));
+
+            // Rabbit
+            builder.Services.AddHostedService<OrderCreatedConsumer>();
         }
 
         private static void ConfigureHealthCheck(this WebApplicationBuilder builder)
